@@ -1,14 +1,35 @@
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class SimpleCalculator {
     
-    int add(String numbers){
+    int add(String numbers) throws NegativeValueException{
         if (numbers.length() == 0)
             return 0;
     
-        numbers = parseNumbersString(numbers);
+        String numbersParsed = parseNumbersString(numbers);
+    
+        int[] inputNumbers = extractNumbers(numbersParsed);
         
-        return Arrays.stream(Arrays.stream(numbers.split(DEFAULT_SEPARATOR_COMA)).mapToInt(Integer::parseInt).toArray()).reduce(Integer.parseInt("0"), Integer::sum);
+        int[] negativeNumbers = findNegativeNumbers(inputNumbers);
+        
+        if (negativeNumbers.length > 0){
+            throw new NegativeValueException(negativeNumbers);
+        }
+        
+        return Arrays.stream(inputNumbers).reduce(Integer.parseInt("0"), Integer::sum);
+    }
+    
+    private int[] extractNumbers(String numbers){
+        return Arrays.stream(numbers.split(DEFAULT_SEPARATOR_COMA)).mapToInt(Integer::parseInt).toArray();
+    }
+    
+    private int[] findNegativeNumbers(int[] inputNumbers){
+        return Arrays.stream(inputNumbers).filter(a -> a <0).toArray();
     }
     
     private String findSeparator(String text){
@@ -20,8 +41,10 @@ public class SimpleCalculator {
     
     private String parseNumbersString(String numbers){
         String separator = findSeparator(numbers);
+        
         if (! separator.equals(","))
             numbers = numbers.replaceAll(CUSTOM_SEPARATOR_REGEX, "");
+        
         return numbers.replaceAll(separator, DEFAULT_SEPARATOR_COMA).replaceAll(DEFAULT_SEPARATOR_NEW_LINE, DEFAULT_SEPARATOR_COMA);
     }
     

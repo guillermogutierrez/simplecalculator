@@ -27,9 +27,16 @@ class SimpleCalculatorTest {
     
     
     @Test
-    void returnSumOfAllValues(){
+    void returnSumOfTwoValues(){
         
         assertThat(simpleCalculator.add("1,2"), is(3));
+    }
+    
+    
+    @Test
+    void returnSumOfMultipleValues(){
+        
+        assertThat(simpleCalculator.add("1,2,3,4,5,6,7,8,9"), is(45));
     }
     
 }

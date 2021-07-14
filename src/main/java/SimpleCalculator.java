@@ -6,6 +6,9 @@ public class SimpleCalculator {
         if (numbers.length() == 0)
             return 0;
     
+        numbers = numbers.replaceAll("\n", ",");
+        
         return Arrays.stream(Arrays.stream(numbers.split(",")).mapToInt(Integer::parseInt).toArray()).reduce(Integer.parseInt("0"), Integer::sum);
     }
+
 }

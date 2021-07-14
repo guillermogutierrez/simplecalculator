@@ -39,4 +39,11 @@ class SimpleCalculatorTest {
         assertThat(simpleCalculator.add("1,2,3,4,5,6,7,8,9"), is(45));
     }
     
+    @Test
+    void returnSumWithNewlineSeparatorValues(){
+        
+        assertThat(simpleCalculator.add("1\n2,3"), is(6));
+    }
+   
+    
 }

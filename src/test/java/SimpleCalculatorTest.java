@@ -72,4 +72,10 @@ class SimpleCalculatorTest {
         assertThat(simpleCalculator.add("1001,2"), is(2));
     }
     
+    @Test
+    void returnSumValuesUsingLenghtSeparators() {
+        
+        assertThat(simpleCalculator.add("//[***]\n1***2***3"), is(6));
+    }
+    
 }

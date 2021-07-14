@@ -1,5 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,7 +35,15 @@ public class SimpleCalculator {
     }
     
     private String findSeparator(String text){
-        return (text.startsWith(CUSTOM_SEPARATOR_START)) ? text.substring(2, text.lastIndexOf(DEFAULT_SEPARATOR_NEW_LINE)) : DEFAULT_SEPARATOR_COMA;
+        
+        if (text.matches(MULTI_LENGTH_SEPARATOR_REGEX))
+            return text.substring(3, text.lastIndexOf(MULTI_LENGTH_SEPARATOR_END));
+    
+        if (text.matches(CUSTOM_SEPARATOR_REGEX))
+        
+            return text.substring(2, text.lastIndexOf(DEFAULT_SEPARATOR_NEW_LINE));
+            
+       return DEFAULT_SEPARATOR_COMA;
     }
     
     private int sumNumbers(int[] inputNumbers){
@@ -44,15 +54,19 @@ public class SimpleCalculator {
         String separator = findSeparator(numbers);
         
         if (! separator.equals(","))
-            numbers = numbers.replaceAll(CUSTOM_SEPARATOR_REGEX, "");
+            //numbers = numbers.replaceAll(CUSTOM_SEPARATOR_REGEX, "");
+            numbers = numbers.substring(numbers.indexOf(CUSTOM_SEPARATOR_END)+1, numbers.length());
         
-        return numbers.replaceAll(separator, DEFAULT_SEPARATOR_COMA).replaceAll(DEFAULT_SEPARATOR_NEW_LINE, DEFAULT_SEPARATOR_COMA);
+        return numbers.replaceAll(Pattern.quote(separator), DEFAULT_SEPARATOR_COMA).replaceAll(DEFAULT_SEPARATOR_NEW_LINE, DEFAULT_SEPARATOR_COMA);
     }
     
     private static final String CUSTOM_SEPARATOR_START = "//";
+    //private static final String MULTI_LENGTH_SEPARATOR_START = "//[";
     private static final String CUSTOM_SEPARATOR_END = "\n";
+    private static final String MULTI_LENGTH_SEPARATOR_END = "]\n";
     private static final String DEFAULT_SEPARATOR_COMA = ",";
     private static final String DEFAULT_SEPARATOR_NEW_LINE = "\n";
-    private static final String CUSTOM_SEPARATOR_REGEX = CUSTOM_SEPARATOR_START + "." + CUSTOM_SEPARATOR_END;
+    private static final String CUSTOM_SEPARATOR_REGEX = CUSTOM_SEPARATOR_START + "." + CUSTOM_SEPARATOR_END + ".*$";
+    private static final String MULTI_LENGTH_SEPARATOR_REGEX = "//\\[.*\\]\\n.*$";
     private static final Integer TOP_THRESHOLD = 1000;
 }

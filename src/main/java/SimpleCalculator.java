@@ -21,7 +21,7 @@ public class SimpleCalculator {
             throw new NegativeValueException(negativeNumbers);
         }
         
-        return Arrays.stream(inputNumbers).reduce(Integer.parseInt("0"), Integer::sum);
+        return sumNumbers(inputNumbers);
     }
     
     private int[] extractNumbers(String numbers){
@@ -33,10 +33,11 @@ public class SimpleCalculator {
     }
     
     private String findSeparator(String text){
-        if (! text.startsWith(CUSTOM_SEPARATOR_START))
-            return ",";
-        
-        return text.substring(2, text.lastIndexOf("\n"));
+        return (text.startsWith(CUSTOM_SEPARATOR_START)) ? text.substring(2, text.lastIndexOf(DEFAULT_SEPARATOR_NEW_LINE)) : DEFAULT_SEPARATOR_COMA;
+    }
+    
+    private int sumNumbers(int[] inputNumbers){
+        return Arrays.stream(inputNumbers).filter(a -> a <= TOP_THRESHOLD).reduce(Integer.parseInt("0"), Integer::sum);
     }
     
     private String parseNumbersString(String numbers){
@@ -53,4 +54,5 @@ public class SimpleCalculator {
     private static final String DEFAULT_SEPARATOR_COMA = ",";
     private static final String DEFAULT_SEPARATOR_NEW_LINE = "\n";
     private static final String CUSTOM_SEPARATOR_REGEX = CUSTOM_SEPARATOR_START + "." + CUSTOM_SEPARATOR_END;
+    private static final Integer TOP_THRESHOLD = 1000;
 }

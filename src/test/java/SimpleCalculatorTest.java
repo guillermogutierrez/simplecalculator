@@ -66,4 +66,10 @@ class SimpleCalculatorTest {
         assertEquals("negatives not allowed: -2 -3", negativeValueException.getMessage());
     }
     
+    @Test
+    void returnSumIgnoringValuesOver1000() {
+        
+        assertThat(simpleCalculator.add("1001,2"), is(2));
+    }
+    
 }

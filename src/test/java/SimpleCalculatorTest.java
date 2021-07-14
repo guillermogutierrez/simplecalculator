@@ -15,13 +15,21 @@ class SimpleCalculatorTest {
     }
     
     @Test
-    void testEmptyNumbers(){
+    void returnZeroToEmptyString(){
         assertThat(simpleCalculator.add(""), is(0));
     }
     
     @Test
-    void testSingleNumber(){
+    void returnSameValueForOneNumber(){
         
         assertThat(simpleCalculator.add("4"), is(4));
     }
+    
+    
+    @Test
+    void returnSumOfAllValues(){
+        
+        assertThat(simpleCalculator.add("1,2"), is(3));
+    }
+    
 }

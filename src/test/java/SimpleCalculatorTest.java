@@ -44,6 +44,12 @@ class SimpleCalculatorTest {
         
         assertThat(simpleCalculator.add("1\n2,3"), is(6));
     }
-   
+    
+    
+    @Test
+    void returnSumWithCustomSeparatorValues(){
+        
+        assertThat(simpleCalculator.add("//;\n1;2"), is(3));
+    }
     
 }

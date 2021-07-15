@@ -21,20 +21,22 @@ public class NumberParserService {
     public StringNumber parseInputNumbers(String numbers) {
         String[] separators = separatorService.identifySeparators(numbers);
         
-        if (!separators[0].equals(","))
-            numbers = numbers.substring(numbers.indexOf(CUSTOM_SEPARATOR_REGEX_END) + 1);
+        int[] parsedNumbers = extractNumbers(numbers, separators);
         
-        return new StringNumber(separators, extractNumbers(parseNumbersString(numbers, separators)));
+        return new StringNumber(separators, parsedNumbers);
     }
     
-    public int[] extractNumbers(String numbers) {
+    private int[] extractNumbers(String numbers, String[] separators) {
+        
+        numbers = parseNumbersString(numbers, separators);
+        
         return Arrays.stream(numbers.split(SeparatorParserService.DEFAULT_SEPARATOR_COMA)).mapToInt(Integer::parseInt).toArray();
     }
     
     private String parseNumbersString(String numbers, String[] separators) {
         
-        if (!separators[0].equals(","))
-            numbers = numbers.substring(numbers.indexOf(CUSTOM_SEPARATOR_REGEX_END) + 2);
+        if (separatorService.containsSeparatorPattern(numbers))
+            numbers = numbers.substring(numbers.indexOf(CUSTOM_SEPARATOR_REGEX_END) + CUSTOM_SEPARATOR_REGEX_END.length());
         
         return numbers.replaceAll(separatorService.concatenateSeparators(separators), SeparatorParserService.DEFAULT_SEPARATOR_COMA);
     }

@@ -13,7 +13,6 @@ class SimpleCalculatorTest {
     
     private SimpleCalculator simpleCalculator;
     
-    
     @BeforeEach
     void setUp() {
         simpleCalculator = new SimpleCalculator();
@@ -30,13 +29,11 @@ class SimpleCalculatorTest {
         assertThat(simpleCalculator.add("4"), is(4));
     }
     
-    
     @Test
     void returnSumOfTwoValues() {
         
         assertThat(simpleCalculator.add("1,2"), is(3));
     }
-    
     
     @Test
     void returnSumOfMultipleValues() {
@@ -47,9 +44,8 @@ class SimpleCalculatorTest {
     @Test
     void returnSumWithNewlineSeparatorValues() {
         
-        assertThat(simpleCalculator.add("1\n2,3"), is(6));
+        assertThat(simpleCalculator.add("1\\n2,3"), is(6));
     }
-    
     
     @Test
     void returnSumWithCustomSeparatorValues() {
@@ -79,11 +75,16 @@ class SimpleCalculatorTest {
         assertThat(simpleCalculator.add("//[***]\\n1***2***3"), is(6));
     }
     
-    
     @Test
     void returnSumValuesUsingMultipleSingleLenghtSeparators() {
         
         assertThat(simpleCalculator.add("//[*][%]\\n1*2%3"), is(6));
+    }
+    
+    @Test
+    void returnSumValuesUsingMultipleLongerLenghtSeparators() {
+        
+        assertThat(simpleCalculator.add("//[foo][bar]\\n1foo2bar3"), is(6));
     }
     
 }

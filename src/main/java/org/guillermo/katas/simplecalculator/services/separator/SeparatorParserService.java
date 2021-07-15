@@ -12,8 +12,8 @@ public class SeparatorParserService {
     private final List<SeparatorParser> parsers;
     
     public SeparatorParserService(){
-        parsers = new ArrayList<SeparatorParser>();
-        parsers.add(new SingleMultiSeparatorParser());
+        parsers = new ArrayList<>();
+        parsers.add(new MultiSeparatorParser());
         parsers.add(new MultiLengthSeparatorParser());
         parsers.add(new CustomSeparatorsParser());
         parsers.add(new BaseSeparatorParser());
@@ -22,21 +22,18 @@ public class SeparatorParserService {
     public String[] identifySeparators(String text){
         for (SeparatorParser parser: parsers) {
             String [] separators = parser.extractSeparators(text);
-            if (separators != null)
+            if (separators.length != 0)
                 return separators;
         }
         return new String[0];
     }
     
     public String concatenateSeparators(String[] separators){
-        
-        StringBuilder stringSeparator = new StringBuilder();
-        
-        Arrays.stream(separators).forEach(s -> stringSeparator.append(Pattern.quote(s)).append("|"));
-        
-        stringSeparator.append("\\n");
-        
-        return stringSeparator.toString();
+        return String.join("|", separators);
+    }
+    
+    public Boolean containsSeparatorPattern(String text){
+        return text.matches("//.*\\\\n.*$");
     }
     
     public final static String DEFAULT_SEPARATOR_COMA = ",";

@@ -16,6 +16,7 @@ public class SimpleCalculator {
     }
     
     public int add(String numbers) throws NegativeValueException {
+        
         if (numbers.length() == 0)
             return 0;
         

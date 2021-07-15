@@ -1,3 +1,5 @@
+import org.guillermo.katas.simplecalculator.SimpleCalculator;
+import org.guillermo.katas.simplecalculator.model.NegativeValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,9 +54,8 @@ class SimpleCalculatorTest {
     @Test
     void returnSumWithCustomSeparatorValues() {
         
-        assertThat(simpleCalculator.add("//;\n1;2"), is(3));
+        assertThat(simpleCalculator.add("//;\\n1;2"), is(3));
     }
-    
     
     @Test
     void returnExceptionWithNegativeValues() {
@@ -75,7 +76,14 @@ class SimpleCalculatorTest {
     @Test
     void returnSumValuesUsingLenghtSeparators() {
         
-        assertThat(simpleCalculator.add("//[***]\n1***2***3"), is(6));
+        assertThat(simpleCalculator.add("//[***]\\n1***2***3"), is(6));
+    }
+    
+    
+    @Test
+    void returnSumValuesUsingMultipleSingleLenghtSeparators() {
+        
+        assertThat(simpleCalculator.add("//[*][%]\\n1*2%3"), is(6));
     }
     
 }

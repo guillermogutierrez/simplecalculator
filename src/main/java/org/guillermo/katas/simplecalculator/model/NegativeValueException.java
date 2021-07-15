@@ -1,3 +1,5 @@
+package org.guillermo.katas.simplecalculator.model;
+
 import java.util.Arrays;
 
 public class NegativeValueException extends  RuntimeException{
